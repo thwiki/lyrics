@@ -1,0 +1,19 @@
+{
+	"name": "lyrics",
+	"version": "0.0.0",
+	"main": "index.js",
+	"description": "",
+	"repository": "https://github.com/thwiki/lyrics",
+	"license": "MIT",
+	"scripts": {
+		"setup": "npx vercel login && npx vercel link",
+		"start": "npx vercel dev",
+		"deploy": "npx vercel deploy --prod",
+		"dev": "npm run start",
+		"test": "go test ./lrc ./lyrics",
+		"test:coverage": "go test ./lrc ./lyrics -cover"
+	},
+	"dependencies": {
+		"vercel": "^28.7.2"
+	}
+}
