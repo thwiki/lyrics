@@ -6,12 +6,13 @@ import (
 )
 
 type Meta struct {
-	Title  string `json:"ti" lrc:"ti"`
-	Album  string `json:"al" lrc:"al"`
-	Artist string `json:"ar" lrc:"ar"`
-	Editor string `json:"re" lrc:"re"`
-	Length string `json:"length" lrc:"length"`
-	Offset string `json:"offset" lrc:"offset"`
+	Title     string   `json:"title" lrc:"ti"`
+	Album     string   `json:"album" lrc:"al"`
+	Artist    string   `json:"artist" lrc:"ar"`
+	Editor    string   `json:"editor" lrc:"re"`
+	Length    string   `json:"length" lrc:"length"`
+	Offset    string   `json:"offset" lrc:"offset"`
+	Relations []string `json:"relations" lrc:"rel"`
 }
 
 func (meta *Meta) String() (result string) {
@@ -20,9 +21,22 @@ func (meta *Meta) String() (result string) {
 
 	for index := 0; index < values.NumField(); index++ {
 		name := types.Field(index).Tag.Get("lrc")
-		value := values.Field(index).String()
-		if value != "" {
-			result += fmt.Sprintf("[%s:%s]\n", name, value)
+		value := values.Field(index)
+
+		if types.Field(index).Type.Kind() != reflect.Slice {
+			text := value.String()
+			if text != "" {
+				result += fmt.Sprintf("[%s:%s]\n", name, text)
+			}
+			continue
+		}
+		if texts, ok := value.Interface().([]string); ok {
+			for _, text := range texts {
+				if text != "" {
+					result += fmt.Sprintf("[%s:%s]\n", name, text)
+				}
+			}
+			continue
 		}
 	}
 

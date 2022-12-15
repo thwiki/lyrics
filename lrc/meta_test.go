@@ -12,6 +12,11 @@ func TestMetaStringMeta(t *testing.T) {
 		Album:  "Album Name",
 		Artist: "Artist Name",
 		Editor: "Editor Name",
+		Relations: []string{
+			"Relation 1",
+			"",
+			"Relation 2",
+		},
 	}
 
 	str := meta.String()
@@ -20,6 +25,8 @@ func TestMetaStringMeta(t *testing.T) {
 [al:Album Name]
 [ar:Artist Name]
 [re:Editor Name]
+[rel:Relation 1]
+[rel:Relation 2]
 `, str)
 }
 

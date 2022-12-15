@@ -77,7 +77,7 @@ func TestGetTTTSource(t *testing.T) {
 	os.Setenv("TTT_API_SOURCE", "https://example.com/api.php")
 	str, err := getTTTSource(&request)
 
-	assert.Equal(t, "https://example.com/api.php?action=ttt&format=json&lang=&parse=&title=Lyrics%3A%E4%B8%AD%E6%96%87+test.track_%E7%BB%93%E5%B0%BE", str)
+	assert.Equal(t, "https://example.com/api.php?action=ttt&format=json&lang=xx%2Clyrics%2Csep%2Ctime&parse=&title=Lyrics%3A%E4%B8%AD%E6%96%87+test.track_%E7%BB%93%E5%B0%BE", str)
 	assert.Nil(t, err)
 }
 
@@ -147,4 +147,48 @@ func TestTTTResponseAddLinesIndex2JA(t *testing.T) {
 		{Time: "02:23.45", Text: ""},
 		{Time: "03:34.56", Text: "Section 2 Line 3"},
 	}, document.Lines)
+}
+
+func TestParseTabName(t *testing.T) {
+	var text, result string
+
+	text = "原版 = "
+	result = parseTabName(text)
+	assert.Equal(t, "原版", result)
+
+	text = "|-| extended mix = "
+	result = parseTabName(text)
+	assert.Equal(t, "extended mix", result)
+
+	text = " = "
+	result = parseTabName(text)
+	assert.Equal(t, "默认", result)
+}
+
+func TestFixHtml(t *testing.T) {
+	var text, result string
+
+	text = `abc <sup id="cite_ref-unsung_1-0" class="reference"><a href="#cite_note-unsung-1">1</a></sup> def</div>
+<div class="mw-references-wrap"><ol class="references">
+<li id="cite_note-unsung-1"><span class="mw-cite-backlink"><a href="#cite_ref-unsung_1-0">↑</a></span> <span class="reference-text">本句没被唱出</span>
+</li>
+</ol>`
+	result = fixHtml(text)
+	assert.Equal(t, "abc def", result)
+
+	text = `abc <b>def</b> ghi`
+	result = fixHtml(text)
+	assert.Equal(t, "abc def ghi", result)
+
+	text = `abc <span style="color:purple;">def</span> ghi`
+	result = fixHtml(text)
+	assert.Equal(t, "abc def ghi", result)
+
+	text = `abc <ruby lang="en"><rb>def</rb><rp> (</rp><rt>123</rt><rp>) </rp></ruby> ghi`
+	result = fixHtml(text)
+	assert.Equal(t, "abc def ghi", result)
+
+	text = `abc <unkown>def</unkown> ghi`
+	result = fixHtml(text)
+	assert.Equal(t, "abc def ghi", result)
 }

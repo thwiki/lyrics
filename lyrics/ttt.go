@@ -8,9 +8,10 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"strings"
 
-	strip "github.com/grokify/html-strip-tags-go"
+	"github.com/microcosm-cc/bluemonday"
 	"github.com/thwiki/lyrics/lrc"
 )
 
@@ -38,6 +39,24 @@ type TTTResponseCell struct {
 	Content string `json:"*"`
 }
 
+var (
+	spaceRegex = regexp.MustCompile(`\s+`)
+	tabRegex   = regexp.MustCompile(`(?:\|-\|)?(.+)=\s*`)
+)
+
+func parseTabName(text string) (name string) {
+	match := tabRegex.FindStringSubmatch(text)
+	if match == nil {
+		name = "默认"
+		return
+	}
+	name = strings.TrimSpace(match[1])
+	if name == "" {
+		name = "默认"
+	}
+	return
+}
+
 func getTTTSource(request *Request) (string, error) {
 	source, err := url.Parse(os.Getenv("TTT_API_SOURCE"))
 
@@ -49,7 +68,7 @@ func getTTTSource(request *Request) (string, error) {
 	query.Set("action", "ttt")
 	query.Set("format", "json")
 	query.Set("title", "Lyrics:"+request.Title)
-	query.Set("lang", "")
+	query.Set("lang", "xx,lyrics,sep,time")
 	query.Set("parse", "")
 	source.RawQuery = query.Encode()
 
@@ -86,9 +105,24 @@ func (r *TTTResponse) AddLines(request *Request, document *lrc.Document) (err er
 
 	table := r.Table
 	index := 0
+	document.Meta.Relations = make([]string, 0)
+	isInfo := true
 
 	for _, row := range table {
-		if row.Type == "lyrics-header" {
+		if row.Type == "xx" {
+			header := row.FindLang("xx")
+			if isInfo {
+				isInfo = false
+			} else {
+				nextRequest := Request{
+					Title:     request.Title,
+					Index:     index + 1,
+					Language:  request.Language,
+					Extension: request.Extension,
+				}
+				document.Meta.Relations = append(document.Meta.Relations, fmt.Sprintf("%s: https://%s/%s", parseTabName(header), os.Getenv("SERVICE_HOST"), nextRequest.String()))
+			}
+		} else if row.Type == "lyrics-header" {
 			index++
 		}
 		if index < request.Index {
@@ -142,9 +176,95 @@ func (row *TTTResponseRow) FindLang(lang string) string {
 				}
 			}
 			if isMatch {
-				return strings.TrimSpace(strings.ReplaceAll(html.UnescapeString(strip.StripTags(cell.Content)), "\n", " "))
+				return fixHtml(cell.Content)
 			}
 		}
 	}
 	return ""
+}
+
+func fixHtml(text string) string {
+	p := &bluemonday.Policy{}
+	p.SkipElementsContent(
+		"abbr",
+		"acronym",
+		"address",
+		"article",
+		"aside",
+		"bdi",
+		"blockquote",
+		"br",
+		"button",
+		"canvas",
+		"caption",
+		"center",
+		"cite",
+		"code",
+		"col",
+		"colgroup",
+		"datalist",
+		"dd",
+		"details",
+		"dfn",
+		"div",
+		"dl",
+		"dt",
+		"fieldset",
+		"figcaption",
+		"figure",
+		"footer",
+		"h1",
+		"h2",
+		"h3",
+		"h4",
+		"h5",
+		"h6",
+		"header",
+		"hgroup",
+		"hr",
+		"html",
+		"kbd",
+		"li",
+		"mark",
+		"marquee",
+		"nav",
+		"ol",
+		"optgroup",
+		"option",
+		"p",
+		"pre",
+		"q",
+		"rp",
+		"rt",
+		"samp",
+		"script",
+		"section",
+		"select",
+		"strike",
+		"style",
+		"sub",
+		"summary",
+		"sup",
+		"table",
+		"tbody",
+		"td",
+		"tfoot",
+		"th",
+		"thead",
+		"title",
+		"time",
+		"tr",
+		"tt",
+		"ul",
+		"var",
+		"wbr",
+	)
+	p.AllowElementsContent("span", "small", "s", "del", "em", "ins", "b", "strong", "i", "u", "font", "rb", "ruby")
+
+	text = p.Sanitize(text)
+
+	text = html.UnescapeString(text)
+	text = spaceRegex.ReplaceAllString(text, " ")
+	text = strings.TrimSpace(text)
+	return text
 }
