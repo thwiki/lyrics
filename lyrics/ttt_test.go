@@ -149,23 +149,27 @@ func TestTTTResponseAddLinesIndex2JA(t *testing.T) {
 	}, document.Lines)
 }
 
-func TestParseTabName(t *testing.T) {
+func TestSanitizeTabName(t *testing.T) {
 	var text, result string
 
 	text = "原版 = "
-	result = parseTabName(text)
+	result = sanitizeTabName(text)
+	assert.Equal(t, "原版", result)
+
+	text = "<tabber>  原版 = "
+	result = sanitizeTabName(text)
 	assert.Equal(t, "原版", result)
 
 	text = "|-| extended mix = "
-	result = parseTabName(text)
+	result = sanitizeTabName(text)
 	assert.Equal(t, "extended mix", result)
 
 	text = " = "
-	result = parseTabName(text)
+	result = sanitizeTabName(text)
 	assert.Equal(t, "默认", result)
 }
 
-func TestFixHtml(t *testing.T) {
+func TestSanitizeHtml(t *testing.T) {
 	var text, result string
 
 	text = `abc <sup id="cite_ref-unsung_1-0" class="reference"><a href="#cite_note-unsung-1">1</a></sup> def</div>
@@ -173,22 +177,22 @@ func TestFixHtml(t *testing.T) {
 <li id="cite_note-unsung-1"><span class="mw-cite-backlink"><a href="#cite_ref-unsung_1-0">↑</a></span> <span class="reference-text">本句没被唱出</span>
 </li>
 </ol>`
-	result = fixHtml(text)
+	result = sanitizeHtml(text)
 	assert.Equal(t, "abc def", result)
 
 	text = `abc <b>def</b> ghi`
-	result = fixHtml(text)
+	result = sanitizeHtml(text)
 	assert.Equal(t, "abc def ghi", result)
 
 	text = `abc <span style="color:purple;">def</span> ghi`
-	result = fixHtml(text)
+	result = sanitizeHtml(text)
 	assert.Equal(t, "abc def ghi", result)
 
 	text = `abc <ruby lang="en"><rb>def</rb><rp> (</rp><rt>123</rt><rp>) </rp></ruby> ghi`
-	result = fixHtml(text)
+	result = sanitizeHtml(text)
 	assert.Equal(t, "abc def ghi", result)
 
 	text = `abc <unkown>def</unkown> ghi`
-	result = fixHtml(text)
+	result = sanitizeHtml(text)
 	assert.Equal(t, "abc def ghi", result)
 }
