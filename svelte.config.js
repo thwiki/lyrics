@@ -13,10 +13,7 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter({
 			runtime: 'nodejs18.x',
-			regions: ['sfo1'],
-			precompress: false,
-			strict: true,
-			trailingSlash: 'always'
+			regions: ['sfo1']
 		})
 	}
 };
