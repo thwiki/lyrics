@@ -11,5 +11,3 @@ export const load = (async ({ url }) => {
 }) satisfies LayoutLoad;
 
 export const ssr = false;
-
-export const prerender = true;
