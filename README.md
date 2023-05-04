@@ -1,3 +1,3 @@
 # lyrics
 
-[Touhou Lyrics](https://lyrics.thwiki.cc)
+[LyricsTouHou](https://lyrics.thwiki.cc)

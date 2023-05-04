@@ -70,7 +70,8 @@ typings/
 
 # dotenv environment variables file
 .env
-.env.test
+.env.*
+!.env.example
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -81,6 +82,13 @@ typings/
 # Nuxt.js build / generate output
 .nuxt
 dist
+
+# SvelteKit build output
+.svelte-kit
+/build
+/package
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
 
 # Gatsby files
 .cache/
@@ -120,3 +128,5 @@ dist
 
 # Go workspace file
 go.work
+
+.DS_Store

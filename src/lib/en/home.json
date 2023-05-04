@@ -1,0 +1,38 @@
+{
+	"main": {
+		"head": "A database for Touhou Project fan lyrics",
+		"desc": "Access 10,000+ lyrics in lrc format, complete with timestamps and translations*"
+	},
+	"searcher": {
+		"action": "Find the lyrics you love with our database",
+		"or": "or",
+		"view": "View File",
+		"copy": "Copy Link",
+		"empty": "No Result"
+	},
+	"ranking": {
+		"recent": "Recent Updated",
+		"popular": "Popular Items"
+	},
+	"search": {
+		"head": "Search and Access 10,000+ Lyrics",
+		"desc": "Our search function is powered by the professional THBWiki, providing you with the most comprehensive and accurate data available. With this powerful tool, you can quickly find the lyrics you need and explore the world of Touhou Project fan music.",
+		"action": "Start searching",
+		"display": "How to search"
+	},
+	"export": {
+		"head": "LRC Files Compatible with Music Players",
+		"desc": "LRC format ensures compatibility with all major music players, allowing easy access to the lyrics you need. Additionally, with line by line translations, you can quickly and easily understand the lyrics of your favorite songs.",
+		"action": "LRC is a type of file that stores lyrics and timestamps, making it easy for you to synchronize the lyrics with the music.",
+		"display": "LRC Files"
+	},
+	"community": {
+		"head": "Powered by the Community",
+		"desc": "All lyrics and translations are powered by the passionate members of THBWiki and the Touhou community. Join us in expanding the world of Touhou Project fan music and become part of our amazing community. Click the link below to learn more about how you can help!",
+		"action": "I would like to contribute!",
+		"display": "Contributors"
+	},
+	"footnote": {
+		"translation": "* Not all lyrics have translations. Translating lyrics is a difficult and time-consuming task, so if you're not satisfied with the translations available, please consider helping us out by contributing your own translations!"
+	}
+}
