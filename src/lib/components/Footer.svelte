@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { t } from '../translations';
+	import RelativeTime from './RelativeTime.svelte';
+
+	export let date: Date | undefined = undefined;
 </script>
 
 <footer class="relative mt-auto pt-10 md:pt-3">
@@ -56,6 +59,9 @@
 					target="_blank"
 					rel="noopener">{$t('common.donation')}</a
 				>
+				{#if date}
+					<div class="!ml-auto"><RelativeTime time={date} /></div>
+				{/if}
 			</div>
 		</div>
 	</div>

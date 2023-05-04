@@ -130,6 +130,7 @@
 						<img
 							class="rounded-full border-2 border-white -ml-6 hover:scale-110 transition-transform"
 							src="https://upload.thwiki.cc/avatars/thwikicc_wiki_{member}_l.png"
+							crossorigin="anonymous"
 							alt={$t('home.community.display')}
 						/>
 					{/each}

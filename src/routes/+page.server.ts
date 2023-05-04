@@ -8,6 +8,7 @@ import {
 	VERCEL_TEAM_ID,
 	VERCEL_TOKEN
 } from '$env/static/private';
+import type { Config } from '@sveltejs/adapter-vercel';
 import type { PageServerLoad } from './$types';
 
 export interface WikiRecentChangesResponse {
@@ -198,11 +199,12 @@ export const load = (async () => {
 			}))
 			.sort((a, b) => b.value - a.value)
 			.slice(0, parseInt(RANKING_POPULAR_LIMIT)),
-		members
+		members,
+		timestamp: Date.now()
 	};
 }) satisfies PageServerLoad;
 
-export const config = {
+export const config: Config = {
 	isr: {
 		expiration: 86400
 	}
