@@ -9,5 +9,3 @@ export const load = (async ({ url }) => {
 
 	return {};
 }) satisfies LayoutLoad;
-
-export const ssr = false;
