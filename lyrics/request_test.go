@@ -31,7 +31,7 @@ func TestRequestFromNameWithoutLanguage(t *testing.T) {
 	var err error = request.FromName("中文 test.track_结尾.42.lrc")
 	assert.Equal(t, "中文 test.track_结尾", request.Title)
 	assert.Equal(t, 42, request.Index)
-	assert.Equal(t, LANGUAGE_JA, request.Language)
+	assert.Equal(t, LANGUAGE_ALL, request.Language)
 	assert.Equal(t, "lrc", request.Extension)
 	assert.Nil(t, err)
 }
@@ -51,7 +51,7 @@ func TestRequestFromNameWithoutIndexAndLanguage(t *testing.T) {
 	var err error = request.FromName("中文 test.track_结尾.lrc")
 	assert.Equal(t, "中文 test.track_结尾", request.Title)
 	assert.Equal(t, 1, request.Index)
-	assert.Equal(t, LANGUAGE_JA, request.Language)
+	assert.Equal(t, LANGUAGE_ALL, request.Language)
 	assert.Equal(t, "lrc", request.Extension)
 	assert.Nil(t, err)
 }
@@ -87,7 +87,7 @@ func TestRequestFromNameNumericTitleWithoutLanguage(t *testing.T) {
 	var err error = request.FromName("1234.lrc")
 	assert.Equal(t, "1234", request.Title)
 	assert.Equal(t, 1, request.Index)
-	assert.Equal(t, LANGUAGE_JA, request.Language)
+	assert.Equal(t, LANGUAGE_ALL, request.Language)
 	assert.Equal(t, "lrc", request.Extension)
 	assert.Nil(t, err)
 }

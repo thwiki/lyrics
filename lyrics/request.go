@@ -20,7 +20,7 @@ func (request *Request) FromName(name string) (err error) {
 	lastIndex := len(parts) - 1
 
 	request.Index = 1
-	request.Language = LANGUAGE_JA
+	request.Language = LANGUAGE_ALL
 	request.Extension = "lrc"
 
 	if lastIndex > 0 {

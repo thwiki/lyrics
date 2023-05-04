@@ -56,7 +56,7 @@ func TestParseLanguageInvalid(t *testing.T) {
 	var err error
 
 	texts := []string{"123", "abc", "ja-"}
-	languages := []string{"ja", "ja", "ja"}
+	languages := []string{"all", "all", "all"}
 
 	// Standard
 	for index, text := range texts {

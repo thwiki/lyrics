@@ -32,7 +32,7 @@ func ParseLanguage(text string) (Language, error) {
 	language := Language(text)
 	_, ok := languages[language]
 	if !ok {
-		return LANGUAGE_JA, &InvalidLanguageError{Text: text}
+		return LANGUAGE_ALL, &InvalidLanguageError{Text: text}
 	}
 	return language, nil
 }

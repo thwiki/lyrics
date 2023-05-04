@@ -19,6 +19,7 @@ func TestDocumentString(t *testing.T) {
 			Album:  "Album Name",
 			Artist: "Artist Name",
 			Editor: "Editor Name",
+			Author: "Author Name",
 		},
 		Lines: []Line{
 			{
@@ -42,6 +43,7 @@ func TestDocumentString(t *testing.T) {
 [al:Album Name]
 [ar:Artist Name]
 [re:Editor Name]
+[by:Author Name]
 [00:01.23]line 1
 [00:04.56]line 2
 [00:12.34]

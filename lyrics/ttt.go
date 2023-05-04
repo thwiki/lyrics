@@ -40,9 +40,21 @@ type TTTResponseCell struct {
 }
 
 var (
-	spaceRegex = regexp.MustCompile(`\s+`)
-	tabRegex   = regexp.MustCompile(`(?:\|-\||<[^>]*>)?(.+)=\s*`)
+	spaceRegex  = regexp.MustCompile(`\s+`)
+	authorRegex = regexp.MustCompile(`(?:歌词翻译：)(.+\s+（.+）)`)
+	tabRegex    = regexp.MustCompile(`(?:\|-\||<[^>]*>)?(.+)=\s*`)
 )
+
+func sanitizeAuthor(text string) (name string) {
+	match := authorRegex.FindStringSubmatch(text)
+	if match == nil {
+		name = ""
+	} else {
+		name = sanitizeHtml(match[1])
+	}
+
+	return
+}
 
 func sanitizeTabName(text string) (name string) {
 	match := tabRegex.FindStringSubmatch(text)
@@ -98,7 +110,6 @@ func sanitizeHtml(text string) string {
 		"hr",
 		"html",
 		"kbd",
-		"li",
 		"mark",
 		"marquee",
 		"nav",
@@ -129,11 +140,10 @@ func sanitizeHtml(text string) string {
 		"time",
 		"tr",
 		"tt",
-		"ul",
 		"var",
 		"wbr",
 	)
-	p.AllowElementsContent("span", "small", "s", "del", "em", "ins", "b", "strong", "i", "u", "font", "rb", "ruby")
+	p.AllowElementsContent("span", "a", "small", "s", "del", "em", "ins", "b", "strong", "i", "u", "font", "ul", "li", "rb", "ruby")
 
 	text = p.Sanitize(text)
 
@@ -199,6 +209,7 @@ func (r *TTTResponse) AddLines(request *Request, document *lrc.Document) (err er
 			header := row.FindLang("xx")
 			if isInfo {
 				isInfo = false
+				document.Meta.Author = sanitizeAuthor(header)
 			} else {
 				nextRequest := Request{
 					Title:     request.Title,
