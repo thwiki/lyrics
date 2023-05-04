@@ -40,7 +40,7 @@ func (r *AskTrackResponse) FromRequest(request *Request) (err error) {
 	}
 
 	query := AskTrackQuery{
-		Lyrics: &[]string{"Lyrics:" + request.Title},
+		Lyrics: &[]string{os.Getenv("SOURCE_NAMESPACE") + request.Title},
 	}
 	queryBytes, err := json.Marshal(query)
 	if err != nil {
@@ -78,7 +78,10 @@ func (r *AskTrackResponse) AddMeta(request *Request, document *lrc.Document) (er
 	document.Meta.Title = strings.Join(track.Name, "/")
 	document.Meta.Album = strings.Join(track.AlName, "/")
 	document.Meta.Artist = strings.Join(track.CircleName, "/")
-	document.Meta.Editor = fmt.Sprintf("THBWiki %s Lyrics: https://%s/%s", os.Getenv("SERVICE_NAME"), os.Getenv("SERVICE_HOST"), request.String())
+	document.Meta.Editor = []string{
+		fmt.Sprintf("%s: https://%s/%s", os.Getenv("SERVICE_NAME"), os.Getenv("SERVICE_HOST"), request.String()),
+		fmt.Sprintf("%s: https://%s/%s", os.Getenv("SOURCE_NAME"), os.Getenv("SOURCE_HOST"), os.Getenv("SOURCE_NAMESPACE")+request.Title),
+	}
 
 	return
 }

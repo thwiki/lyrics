@@ -164,7 +164,7 @@ func getTTTSource(request *Request) (string, error) {
 	query := source.Query()
 	query.Set("action", "ttt")
 	query.Set("format", "json")
-	query.Set("title", "Lyrics:"+request.Title)
+	query.Set("title", os.Getenv("SOURCE_NAMESPACE")+request.Title)
 	query.Set("lang", "xx,lyrics,sep,time")
 	query.Set("parse", "")
 	source.RawQuery = query.Encode()
