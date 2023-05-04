@@ -51,7 +51,7 @@
 				<div slot="header" class="flex items-center">
 					<RecentIcon class="h-8 -my-2 mr-2 fill-green-500" />{$t('home.ranking.recent')}
 				</div>
-				<RelativeTime slot="item" let:value time={value} />
+				<RelativeTime slot="item" let:value time={value} sync />
 			</Ranking>
 			<Ranking items={data.popular}>
 				<div slot="header" class="flex items-center">

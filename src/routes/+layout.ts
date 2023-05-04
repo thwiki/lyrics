@@ -3,11 +3,10 @@ import type { LayoutLoad } from './$types';
 
 export const load = (async ({ url }) => {
 	const { pathname } = url;
-	const defaultLocale = window.navigator.language.startsWith('zh') ? 'zh' : 'en';
+
+	const defaultLocale = 'zh';
 	const initLocale = locale.get() || defaultLocale;
 	await loadTranslations(initLocale, pathname);
 
 	return {};
 }) satisfies LayoutLoad;
-
-export const ssr = false;

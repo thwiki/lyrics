@@ -15,13 +15,20 @@
 							class="inline"
 							alt="Creative Commons License"
 							src="https://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png"
+							width="80"
+							height="15"
 						/>
 						{$t('common.license')}</a
 					>
 				</div>
 				<div class="ml-auto text-center font-semibold">
 					<a href="https://thwiki.cc/" target="_blank"
-						><img src="https://thwiki.cc/banner/banner_b1.png" alt={$t('common.author_desc')} /></a
+						><img
+							src="https://thwiki.cc/banner/banner_b1.png"
+							width="200"
+							height="40"
+							alt={$t('common.author_desc')}
+						/></a
 					>
 					<div>
 						Product of
@@ -60,7 +67,7 @@
 					rel="noopener">{$t('common.donation')}</a
 				>
 				{#if date}
-					<div class="!ml-auto"><RelativeTime time={date} /></div>
+					<div class="!ml-auto"><RelativeTime time={date} sync /></div>
 				{/if}
 			</div>
 		</div>

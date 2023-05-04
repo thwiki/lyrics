@@ -11,37 +11,37 @@ import {
 import type { Config } from '@sveltejs/adapter-vercel';
 import type { PageServerLoad } from './$types';
 
-export interface WikiRecentChangesResponse {
+interface WikiRecentChangesResponse {
 	batchcomplete: boolean;
 	continue: WikiContinue;
 	query: WikiQuery;
 }
 
-export interface WikiContinue {
+interface WikiContinue {
 	grccontinue: string;
 	continue: string;
 }
 
-export interface WikiQuery {
+interface WikiQuery {
 	pages: WikiPage[];
 }
 
-export interface WikiPage {
+interface WikiPage {
 	pageid: number;
 	ns: number;
 	title: string;
 	revisions: WikiRevision[];
 }
 
-export interface WikiRevision {
+interface WikiRevision {
 	timestamp: string;
 }
 
-export interface VercelUsageTopResponse {
+interface VercelUsageTopResponse {
 	data: VercelUsageTopDatum[];
 }
 
-export interface VercelUsageTopDatum {
+interface VercelUsageTopDatum {
 	title: string;
 	target_path: string;
 	host: string;
@@ -114,7 +114,7 @@ function parseName(name: string) {
 	return request;
 }
 
-export const load = (async () => {
+export const load = (async ({ fetch }) => {
 	const recentChangesUrl = new URL('https://thwiki.cc/api.php');
 	const recentChangesUrlSearchParams = recentChangesUrl.searchParams;
 	recentChangesUrlSearchParams.set('action', 'query');
@@ -206,6 +206,6 @@ export const load = (async () => {
 
 export const config: Config = {
 	isr: {
-		expiration: 86400
+		expiration: 60
 	}
 };

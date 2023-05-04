@@ -1,11 +1,24 @@
 <script lang="ts">
+	import { onMount, onDestroy } from 'svelte';
 	import { locale } from '../translations';
+	import { browser } from '$app/environment';
 	export let time: Date | string | number;
 	export let format: 'long' | 'short' | 'narrow' = 'long';
 	export let numeric: 'always' | 'auto' = 'auto';
+	export let sync: boolean = false;
 
 	let relativeTime = '';
 	let isoTime = '';
+	let updateTimeout: number;
+	let update = 0;
+
+	onMount(() => {
+		update++;
+	});
+
+	onDestroy(() => {
+		clearTimeout(updateTimeout);
+	});
 
 	interface UnitConfig {
 		max: number;
@@ -22,15 +35,38 @@
 		{ max: Infinity, value: 31536000000, unit: 'year' }
 	];
 
-	function formatRelativeTime(
-		value: number,
-		unit: Intl.RelativeTimeFormatUnit,
-		options?: Intl.RelativeTimeFormatOptions
-	): string {
-		return new Intl.RelativeTimeFormat($locale, options).format(value, unit);
+	function getTimeUntilNextUnit(unit: 'second' | 'minute' | 'hour' | 'day') {
+		const units = { second: 1000, minute: 60000, hour: 3600000, day: 86400000 };
+		const value = units[unit];
+		return value - (Date.now() % value);
+	}
+
+	function clearSync() {
+		clearTimeout(updateTimeout);
+	}
+
+	function setSync(unit: Intl.RelativeTimeFormatUnit) {
+		let nextInterval: number;
+
+		// NOTE: this could be optimized to determine when the next update should actually occur, but the size and cost of
+		// that logic probably isn't worth the performance benefit
+		if (unit === 'minute') {
+			nextInterval = getTimeUntilNextUnit('second');
+		} else if (unit === 'hour') {
+			nextInterval = getTimeUntilNextUnit('minute');
+		} else if (unit === 'day') {
+			nextInterval = getTimeUntilNextUnit('hour');
+		} else {
+			// Cap updates at once per day. It's unlikely a user will reach this value, plus setTimeout has a limit on the
+			// value it can accept. https://stackoverflow.com/a/3468650/567486
+			nextInterval = getTimeUntilNextUnit('day'); // next day
+		}
+
+		updateTimeout = window.setTimeout(() => update++, nextInterval);
 	}
 
 	$: {
+		update;
 		const now = new Date();
 		const then = new Date(time);
 
@@ -47,6 +83,15 @@
 				numeric: numeric ?? 'auto',
 				style: format ?? 'long'
 			}).format(Math.round(diff / value), unit);
+
+			// If sync is enabled, update as time passes
+			if (browser) {
+				clearSync();
+
+				if (sync) {
+					setSync(unit);
+				}
+			}
 		}
 	}
 </script>

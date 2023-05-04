@@ -9,10 +9,7 @@
 			"destination": "/:path*"
 		}
 	],
-	"rewrites": [
-		{ "source": "/(.*)\\.lrc", "destination": "/api/lrc.go" },
-		{ "source": "/(.*)", "destination": "/index.html" }
-	],
+	"rewrites": [{ "source": "/(.*)\\.lrc", "destination": "/api/lrc.go" }],
 	"headers": [
 		{
 			"source": "/(.*)\\.lrc",
