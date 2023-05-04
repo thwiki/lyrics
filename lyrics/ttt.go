@@ -16,6 +16,7 @@ import (
 )
 
 type TTTResponse struct {
+	Title string            `json:"title,omitempty"`
 	Table []*TTTResponseRow `json:"table,omitempty"`
 	Error *TTTResponseError `json:"error,omitempty"`
 }

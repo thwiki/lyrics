@@ -60,6 +60,7 @@ func (request *Request) GetLrc() (string, error) {
 	if err := tttResponse.FromRequest(request); err != nil {
 		return "", err
 	}
+	request.Title = tttResponse.Title
 	if err := tttResponse.AddLines(request, &document); err != nil {
 		return "", err
 	}
