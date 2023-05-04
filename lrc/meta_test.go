@@ -11,7 +11,7 @@ func TestMetaStringMeta(t *testing.T) {
 		Title:  "Track Name",
 		Album:  "Album Name",
 		Artist: "Artist Name",
-		Editor: "Editor Name",
+		Editor: []string{"Editor Name"},
 		Relations: []string{
 			"Relation 1",
 			"",
@@ -33,7 +33,7 @@ func TestMetaStringMeta(t *testing.T) {
 func TestMetaStringPartialMeta(t *testing.T) {
 	meta := Meta{
 		Title:  "ABCDEF",
-		Editor: "efghij",
+		Editor: []string{"efghij"},
 	}
 
 	str := meta.String()

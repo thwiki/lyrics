@@ -75,6 +75,8 @@ func TestGetTTTSource(t *testing.T) {
 	}
 
 	os.Setenv("TTT_API_SOURCE", "https://example.com/api.php")
+	os.Setenv("SOURCE_NAMESPACE", "Lyrics:")
+
 	str, err := getTTTSource(&request)
 
 	assert.Equal(t, "https://example.com/api.php?action=ttt&format=json&lang=xx%2Clyrics%2Csep%2Ctime&parse=&title=Lyrics%3A%E4%B8%AD%E6%96%87+test.track_%E7%BB%93%E5%B0%BE", str)

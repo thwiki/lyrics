@@ -18,7 +18,7 @@ func TestDocumentString(t *testing.T) {
 			Title:  "Track Name",
 			Album:  "Album Name",
 			Artist: "Artist Name",
-			Editor: "Editor Name",
+			Editor: []string{"Editor Name"},
 			Author: "Author Name",
 		},
 		Lines: []Line{
