@@ -6,6 +6,7 @@
 	"searcher": {
 		"action": "Find the lyrics you love with our database",
 		"or": "or",
+		"page": "View page",
 		"view": "View File",
 		"copy": "Copy Link",
 		"empty": "No Result"

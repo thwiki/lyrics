@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Link from './Link.svelte';
+
 	export let items: {
 		title: string;
 		value: string | number;
@@ -20,11 +22,8 @@
 					{index + 1}
 				</div>
 				<div class="mr-3 whitespace-nowrap overflow-hidden text-ellipsis">
-					<a
-						class="text-blue-500 hover:text-blue-900 transition-colors"
-						href="https://lyrics.thwiki.cc/{item.title}.lrc"
-						target="_blank">{item.title}</a
-					>
+					<Link href="/{item.title}">{item.title}</Link>
+					<Link href="https://lyrics.thwiki.cc/{item.title}.lrc">.lrc</Link>
 				</div>
 				<div class="ml-auto text-amber-500 whitespace-nowrap">
 					<slot name="item" title={item.title} value={item.value} />

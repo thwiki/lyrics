@@ -11,8 +11,10 @@
 	let lang: string = '.all';
 
 	let full: string | undefined = undefined;
+	let page: string | undefined = undefined;
 
 	$: {
+		page = name ? `https://${prefix}${name}` : undefined;
 		full = name ? `https://${prefix}${name}${lang}${suffix}` : undefined;
 	}
 
@@ -93,6 +95,13 @@
 		<div
 			class="w-full flex flex-col sm:items-center justify-center space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 text-sm text-center"
 		>
+			<a
+				href={page}
+				class="bg-blue-500 text-white rounded py-2 px-6 select-none w-full sm:w-auto {name
+					? ''
+					: 'cursor-not-allowed opacity-50'}"><slot name="page" /></a
+			>
+			<div><slot name="or" /></div>
 			<a
 				href={full}
 				target="_blank"

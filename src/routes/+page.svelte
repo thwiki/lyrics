@@ -36,6 +36,7 @@
 			<Searcher prefix="lyrics.thwiki.cc/" suffix=".lrc" bind:input={search}>
 				<svelte:fragment slot="header">{$t('home.searcher.action')}</svelte:fragment>
 				<svelte:fragment slot="or">{$t('home.searcher.or')}</svelte:fragment>
+				<svelte:fragment slot="page">{$t('home.searcher.page')}</svelte:fragment>
 				<svelte:fragment slot="view">{$t('home.searcher.view')}</svelte:fragment>
 				<svelte:fragment slot="copy">{$t('home.searcher.copy')}</svelte:fragment>
 				<svelte:fragment slot="no-results">{$t('home.searcher.empty')}</svelte:fragment>

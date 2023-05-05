@@ -60,7 +60,7 @@ func sanitizeAuthor(text string) (name string) {
 func sanitizeTabName(text string) (name string) {
 	match := tabRegex.FindStringSubmatch(text)
 	if match == nil {
-		name = "默认"
+		name = ""
 		return
 	}
 	name = strings.TrimSpace(match[1])

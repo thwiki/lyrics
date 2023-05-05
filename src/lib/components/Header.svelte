@@ -19,8 +19,8 @@
 						title={$t('common.name')}
 						src={Logo}
 						alt={$t('common.logo')}
-					/></a
-				>
+					/>
+				</a>
 			</div>
 			<div class="ml-auto pl-3">
 				<ul

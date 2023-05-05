@@ -195,7 +195,8 @@ export const load = (async ({ fetch }) => {
 
 							try {
 								item.title = decodeURIComponent(item.target_path);
-								if (/[\u007F-\u00FF]/.test(item.title)) return false;
+								if (/[\u007F-\u00FF]/.test(item.title) || !item.title.endsWith('.lrc'))
+									return false;
 
 								item.title = parseName(item.title.substring(1)).title;
 								return item.title !== '';

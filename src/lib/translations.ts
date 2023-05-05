@@ -14,6 +14,12 @@ const config = {
 			loader: async () => (await import('./zh/home.json')).default
 		},
 		{
+			locale: 'zh',
+			key: 'lyrics',
+			routes: [/^\/.+/],
+			loader: async () => (await import('./zh/lyrics.json')).default
+		},
+		{
 			locale: 'en',
 			key: 'common',
 			loader: async () => (await import('./en/common.json')).default
@@ -23,6 +29,12 @@ const config = {
 			key: 'home',
 			routes: ['/'],
 			loader: async () => (await import('./en/home.json')).default
+		},
+		{
+			locale: 'en',
+			key: 'lyrics',
+			routes: [/^\/.+/],
+			loader: async () => (await import('./en/lyrics.json')).default
 		}
 	]
 } satisfies Config;
