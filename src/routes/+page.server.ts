@@ -206,6 +206,6 @@ export const load = (async ({ fetch }) => {
 
 export const config: Config = {
 	isr: {
-		expiration: 60
+		expiration: 600
 	}
 };

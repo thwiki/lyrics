@@ -117,8 +117,6 @@ func sanitizeHtml(text string) string {
 		"ol",
 		"optgroup",
 		"option",
-		"p",
-		"pre",
 		"q",
 		"rp",
 		"rt",
@@ -144,7 +142,8 @@ func sanitizeHtml(text string) string {
 		"var",
 		"wbr",
 	)
-	p.AllowElementsContent("span", "a", "small", "s", "del", "em", "ins", "b", "strong", "i", "u", "font", "ul", "li", "rb", "ruby")
+	p.AllowElementsContent(
+		"pre", "span", "a", "small", "s", "del", "em", "ins", "b", "strong", "i", "u", "font", "ul", "li", "rb", "ruby")
 
 	text = p.Sanitize(text)
 

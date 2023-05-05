@@ -18,6 +18,7 @@
 		"setup": "npx vercel login && npx vercel link",
 		"start": "npx vercel dev",
 		"deploy": "npx vercel deploy --prod",
+		"api:dev": "npm run start",
 		"api:test": "go test ./lrc ./lyrics",
 		"api:test:coverage": "go test ./lrc ./lyrics -cover"
 	},

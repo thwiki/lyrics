@@ -9,6 +9,7 @@ type Meta struct {
 	Title     string   `json:"title" lrc:"ti"`
 	Album     string   `json:"album" lrc:"al"`
 	Artist    string   `json:"artist" lrc:"ar"`
+	Cover     string   `json:"cover" lrc:"cv"`
 	Editor    []string `json:"editor" lrc:"re"`
 	Author    string   `json:"author" lrc:"by"`
 	Length    string   `json:"length" lrc:"length"`

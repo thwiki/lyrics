@@ -16,6 +16,7 @@ type AskTrackQuery struct {
 	Name       *[]string `json:"name"`
 	AlName     *[]string `json:"alname"`
 	CircleName *[]string `json:"circlename"`
+	Cover      *[]string `json:"cover"`
 	Lyrics     *[]string `json:"lyrics"`
 }
 
@@ -27,10 +28,19 @@ type AskTrackResponse struct {
 }
 
 type AskTrackResponseResult struct {
-	Name       []string `json:"name"`
-	CircleName []string `json:"circlename"`
-	AlName     []string `json:"alname"`
-	ID         string   `json:"id"`
+	ID         string                        `json:"id"`
+	Name       []string                      `json:"name"`
+	AlName     []string                      `json:"alname"`
+	CircleName []string                      `json:"circlename"`
+	Cover      []AskTrackResponseResultCover `json:"cover"`
+}
+
+type AskTrackResponseResultCover struct {
+	FullText     string `json:"fulltext"`
+	FullUrl      string `json:"fullurl"`
+	Namespace    int    `json:"namespace"`
+	Exists       bool   `json:"exists"`
+	Displaytitle string `json:"displaytitle"`
 }
 
 func (r *AskTrackResponse) FromRequest(request *Request) (err error) {
@@ -78,6 +88,10 @@ func (r *AskTrackResponse) AddMeta(request *Request, document *lrc.Document) (er
 	document.Meta.Title = strings.Join(track.Name, "/")
 	document.Meta.Album = strings.Join(track.AlName, "/")
 	document.Meta.Artist = strings.Join(track.CircleName, "/")
+	if len(track.Cover) >= 1 && track.Cover[0].Exists {
+		document.Meta.Cover = (track.Cover[0].FullUrl)
+	}
+
 	document.Meta.Editor = []string{
 		fmt.Sprintf("%s: https://%s/%s", os.Getenv("SERVICE_NAME"), os.Getenv("SERVICE_HOST"), request.String()),
 		fmt.Sprintf("%s: https://%s/%s", os.Getenv("SOURCE_NAME"), os.Getenv("SOURCE_HOST"), os.Getenv("SOURCE_NAMESPACE")+request.Title),
