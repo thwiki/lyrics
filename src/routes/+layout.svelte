@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '../app.postcss';
-	import { page } from '$app/stores';
 	import { t } from '../lib/translations';
 
 	import Header from '../lib/components/Header.svelte';
@@ -16,5 +15,5 @@
 	<div class="relative py-6">
 		<slot />
 	</div>
-	<Footer date={$page.data.timestamp} />
+	<Footer />
 </div>

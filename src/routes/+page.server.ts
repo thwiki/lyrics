@@ -11,11 +11,18 @@ import {
 import type { Config } from '@sveltejs/adapter-vercel';
 import type { PageServerLoad } from './$types';
 
-interface WikiRecentChangesResponse {
-	batchcomplete: boolean;
-	continue: WikiContinue;
-	query: WikiQuery;
-}
+type WikiRecentChangesResponse =
+	| {
+			batchcomplete: boolean;
+			continue: WikiContinue;
+			query: WikiQuery;
+	  }
+	| {
+			error: {
+				code: string;
+				info: string;
+			};
+	  };
 
 interface WikiContinue {
 	grccontinue: string;
@@ -37,9 +44,16 @@ interface WikiRevision {
 	timestamp: string;
 }
 
-interface VercelUsageTopResponse {
-	data: VercelUsageTopDatum[];
-}
+type VercelUsageTopResponse =
+	| {
+			data: VercelUsageTopDatum[];
+	  }
+	| {
+			error: {
+				code: string;
+				message: string;
+			};
+	  };
 
 interface VercelUsageTopDatum {
 	title: string;
@@ -163,42 +177,48 @@ export const load = (async ({ fetch }) => {
 	];
 
 	return {
-		latest: recentChanges.query.pages
-			.map((page) => ({
-				title: page.title.substring(3),
-				value: page.revisions[0].timestamp
-			}))
-			.sort((a, b) => b.value.localeCompare(a.value)),
-		popular: popularItems.data
-			.filter((item) => {
-				if (item.type !== 'func') return false;
+		latest:
+			'error' in recentChanges
+				? []
+				: recentChanges.query.pages
+						.map((page) => ({
+							title: page.title.substring(3),
+							value: page.revisions[0].timestamp
+						}))
+						.sort((a, b) => b.value.localeCompare(a.value)),
+		popular:
+			'error' in popularItems
+				? []
+				: popularItems.data
+						.filter((item) => {
+							if (item.type !== 'func') return false;
 
-				try {
-					item.title = decodeURIComponent(item.target_path);
-					if (/[\u007F-\u00FF]/.test(item.title)) return false;
+							try {
+								item.title = decodeURIComponent(item.target_path);
+								if (/[\u007F-\u00FF]/.test(item.title)) return false;
 
-					item.title = parseName(item.title.substring(1)).title;
-					return item.title !== '';
-				} catch (_: unknown) {
-					return false;
-				}
-			})
-			.filter((item, _, a) => {
-				const firstItem = a.find((search) => search.title === item.title);
-				if (firstItem == null) return false;
+								item.title = parseName(item.title.substring(1)).title;
+								return item.title !== '';
+							} catch (_: unknown) {
+								return false;
+							}
+						})
+						.filter((item, _, a) => {
+							const firstItem = a.find((search) => search.title === item.title);
+							if (firstItem == null) return false;
 
-				if (firstItem === item) {
-					return true;
-				}
-				firstItem.requests += item.requests;
-				return false;
-			})
-			.map((item) => ({
-				title: item.title,
-				value: item.requests
-			}))
-			.sort((a, b) => b.value - a.value)
-			.slice(0, parseInt(RANKING_POPULAR_LIMIT)),
+							if (firstItem === item) {
+								return true;
+							}
+							firstItem.requests += item.requests;
+							return false;
+						})
+						.map((item) => ({
+							title: item.title,
+							value: item.requests
+						}))
+						.sort((a, b) => b.value - a.value)
+						.slice(0, parseInt(RANKING_POPULAR_LIMIT)),
 		members,
 		timestamp: Date.now()
 	};

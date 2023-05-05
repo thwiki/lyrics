@@ -16,7 +16,7 @@ type AskTrackQuery struct {
 	Name       *[]string `json:"name"`
 	AlName     *[]string `json:"alname"`
 	CircleName *[]string `json:"circlename"`
-	Cover      *[]string `json:"cover"`
+	Cover      *[]string `json:"cover2x"`
 	Lyrics     *[]string `json:"lyrics"`
 }
 
@@ -32,7 +32,7 @@ type AskTrackResponseResult struct {
 	Name       []string                      `json:"name"`
 	AlName     []string                      `json:"alname"`
 	CircleName []string                      `json:"circlename"`
-	Cover      []AskTrackResponseResultCover `json:"cover"`
+	Cover      []AskTrackResponseResultCover `json:"cover2x"`
 }
 
 type AskTrackResponseResultCover struct {
