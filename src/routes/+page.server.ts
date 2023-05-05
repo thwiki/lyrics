@@ -159,7 +159,7 @@ export const load = (async ({ fetch }) => {
 	vercelUsageTopUrlSearchParams.set('from', fromDate.toISOString());
 	vercelUsageTopUrlSearchParams.set('to', toDate.toISOString());
 	vercelUsageTopUrlSearchParams.set('limit', RANKING_POPULAR_REQUEST_LIMIT);
-	vercelUsageTopUrlSearchParams.set('sortKey', 'requests');
+	vercelUsageTopUrlSearchParams.set('sortKey', 'invocations');
 	vercelUsageTopUrlSearchParams.set('pathType', 'request_path');
 
 	const popularItems: VercelUsageTopResponse = await (
