@@ -22,7 +22,7 @@
 					{index + 1}
 				</div>
 				<div class="mr-3 whitespace-nowrap overflow-hidden text-ellipsis">
-					<Link href="/{item.title}">{item.title}</Link>
+					<Link href="/{item.title}" target="_blank">{item.title}</Link>
 					<Link href="https://lyrics.thwiki.cc/{item.title}.lrc">.lrc</Link>
 				</div>
 				<div class="ml-auto text-amber-500 whitespace-nowrap">

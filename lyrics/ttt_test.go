@@ -171,6 +171,66 @@ func TestSanitizeTabName(t *testing.T) {
 	assert.Equal(t, "默认", result)
 }
 
+func TestSanitizeTime(t *testing.T) {
+	var text, result string
+
+	text = "12:34.56"
+	result = sanitizeTime(text)
+	assert.Equal(t, "12:34.56", result)
+
+	text = "12:34:56"
+	result = sanitizeTime(text)
+	assert.Equal(t, "12:34.56", result)
+
+	text = " 12:34.56  "
+	result = sanitizeTime(text)
+	assert.Equal(t, "12:34.56", result)
+
+	text = " 12:34:56  "
+	result = sanitizeTime(text)
+	assert.Equal(t, "12:34.56", result)
+
+	text = "12:34"
+	result = sanitizeTime(text)
+	assert.Equal(t, "12:34.00", result)
+
+	text = "34.56"
+	result = sanitizeTime(text)
+	assert.Equal(t, "00:34.56", result)
+
+	text = "34:56"
+	result = sanitizeTime(text)
+	assert.Equal(t, "34:56.00", result)
+
+	text = "2:34"
+	result = sanitizeTime(text)
+	assert.Equal(t, "02:34.00", result)
+
+	text = "4.56"
+	result = sanitizeTime(text)
+	assert.Equal(t, "00:04.56", result)
+
+	text = "4:56"
+	result = sanitizeTime(text)
+	assert.Equal(t, "04:56.00", result)
+
+	text = "1:2.3"
+	result = sanitizeTime(text)
+	assert.Equal(t, "01:02.3", result)
+
+	text = "123:456.789"
+	result = sanitizeTime(text)
+	assert.Equal(t, "123:456.789", result)
+
+	text = " "
+	result = sanitizeTime(text)
+	assert.Equal(t, "00:00.00", result)
+
+	text = "-"
+	result = sanitizeTime(text)
+	assert.Equal(t, "00:00.00", result)
+}
+
 func TestSanitizeHtml(t *testing.T) {
 	var text, result string
 

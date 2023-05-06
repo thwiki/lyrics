@@ -44,6 +44,7 @@ var (
 	spaceRegex  = regexp.MustCompile(`\s+`)
 	authorRegex = regexp.MustCompile(`(?:歌词翻译：)(.+\s+（.+）)`)
 	tabRegex    = regexp.MustCompile(`(?:\|-\||<[^>]*>)?(.+)=\s*`)
+	timeRegex   = regexp.MustCompile(`^\s*(?:(\d+)\s*:\s*)?(\d+)(?:\s*[\.:]\s*(\d+))?\s*$`)
 )
 
 func sanitizeAuthor(text string) (name string) {
@@ -67,6 +68,30 @@ func sanitizeTabName(text string) (name string) {
 	if name == "" {
 		name = "默认"
 	}
+	return
+}
+
+func sanitizeTime(text string) (name string) {
+	match := timeRegex.FindStringSubmatch(text)
+	if match == nil {
+		name = "00:00.00"
+		return
+	}
+
+	if match[1] == "" {
+		name = "00"
+	} else {
+		name = fmt.Sprintf("%02s", match[1])
+	}
+
+	name += fmt.Sprintf(":%02s", match[2])
+
+	if match[3] == "" {
+		name += ".00"
+	} else {
+		name += "." + match[3]
+	}
+
 	return
 }
 
@@ -236,7 +261,7 @@ func (r *TTTResponse) AddLines(request *Request, document *lrc.Document) (err er
 			document.Lines = append(document.Lines, lrc.Line{Time: row.FindLang("sep")})
 		} else if firstPart == "main" {
 			if secondPart == "zh" {
-				document.Lines = append(document.Lines, lrc.Line{Time: row.FindLang("time"), Text: row.FindLang("zh")})
+				document.Lines = append(document.Lines, lrc.Line{Time: sanitizeTime(row.FindLang("time")), Text: row.FindLang("zh")})
 			} else {
 				if request.Language == LANGUAGE_ALL {
 					lineText := row.FindLang(secondPart)
@@ -244,15 +269,15 @@ func (r *TTTResponse) AddLines(request *Request, document *lrc.Document) (err er
 					if zhText != "" {
 						lineText += " // " + zhText
 					}
-					document.Lines = append(document.Lines, lrc.Line{Time: row.FindLang("time"), Text: lineText})
+					document.Lines = append(document.Lines, lrc.Line{Time: sanitizeTime(row.FindLang("time")), Text: lineText})
 				} else if request.Language == "zh" {
 					zhText := row.FindLang("zh")
 					if zhText == "" {
 						zhText = row.FindLang("ja")
 					}
-					document.Lines = append(document.Lines, lrc.Line{Time: row.FindLang("time"), Text: zhText})
+					document.Lines = append(document.Lines, lrc.Line{Time: sanitizeTime(row.FindLang("time")), Text: zhText})
 				} else {
-					document.Lines = append(document.Lines, lrc.Line{Time: row.FindLang("time"), Text: row.FindLang(secondPart)})
+					document.Lines = append(document.Lines, lrc.Line{Time: sanitizeTime(row.FindLang("time")), Text: row.FindLang(secondPart)})
 				}
 			}
 		}

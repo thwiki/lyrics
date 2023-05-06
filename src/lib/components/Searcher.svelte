@@ -97,6 +97,7 @@
 		>
 			<a
 				href={page}
+				target="_blank"
 				class="bg-blue-500 text-white rounded py-2 px-6 select-none w-full sm:w-auto {name
 					? ''
 					: 'cursor-not-allowed opacity-50'}"><slot name="page" /></a
