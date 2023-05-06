@@ -9,7 +9,8 @@
 		"page": "View page",
 		"view": "View File",
 		"copy": "Copy Link",
-		"empty": "No Result"
+		"empty": "No Result",
+		"placeholder": "Name"
 	},
 	"ranking": {
 		"recent": "Recent Updated",

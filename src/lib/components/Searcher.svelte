@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { copy } from '../../utils/copy';
 	import Select from './Select.svelte';
 	import Typeahead from './Typeahead.svelte';
 
 	export let prefix: string;
 	export let suffix: string;
+	export let placeholder: string;
 
 	export let input: HTMLInputElement;
 	let name: string = '';
@@ -80,11 +82,14 @@
 				bind:searchRef={input}
 				bind:value={name}
 				search={handleSearch}
-				placeholder="name"
+				{placeholder}
 				showDropdownOnFocus
 				inputAfterSelect="update"
 				size="20"
 				debounce={300}
+				on:submit={() => {
+					if (page) goto(page);
+				}}
 			>
 				<slot name="no-results" slot="no-results" />
 			</Typeahead>

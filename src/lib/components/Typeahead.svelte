@@ -191,23 +191,33 @@
 		}}
 		on:blur
 		on:keydown
-		on:keydown={(e) => {
+		on:keydown={(event) => {
+			if (
+				(!showResults ||
+					results.length === 0 ||
+					(results.length === 1 && results[0].value === value)) &&
+				event.key === 'Enter'
+			) {
+				dispatch('submit');
+				return;
+			}
+
 			if (results.length === 0) return;
 
-			switch (e.key) {
+			switch (event.key) {
 				case 'Enter':
 					select();
 					break;
 				case 'ArrowDown':
-					e.preventDefault();
+					event.preventDefault();
 					change(1);
 					break;
 				case 'ArrowUp':
-					e.preventDefault();
+					event.preventDefault();
 					change(-1);
 					break;
 				case 'Escape':
-					e.preventDefault();
+					event.preventDefault();
 					value = '';
 					searchRef?.focus();
 					close();

@@ -258,7 +258,7 @@ func (r *TTTResponse) AddLines(request *Request, document *lrc.Document) (err er
 		secondPart := typeParts[1]
 
 		if secondPart == "sep" {
-			document.Lines = append(document.Lines, lrc.Line{Time: row.FindLang("sep")})
+			document.Lines = append(document.Lines, lrc.Line{Time: sanitizeTime(row.FindLang("sep"))})
 		} else if firstPart == "main" {
 			if secondPart == "zh" {
 				document.Lines = append(document.Lines, lrc.Line{Time: sanitizeTime(row.FindLang("time")), Text: row.FindLang("zh")})

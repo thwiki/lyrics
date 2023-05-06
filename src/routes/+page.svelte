@@ -33,7 +33,12 @@
 
 	<div class="container">
 		<div id="search" class="mt-10 mb-10 p-12 shadow-md rounded-lg bg-white">
-			<Searcher prefix="lyrics.thwiki.cc/" suffix=".lrc" bind:input={search}>
+			<Searcher
+				prefix="lyrics.thwiki.cc/"
+				suffix=".lrc"
+				placeholder={$t('home.searcher.placeholder')}
+				bind:input={search}
+			>
 				<svelte:fragment slot="header">{$t('home.searcher.action')}</svelte:fragment>
 				<svelte:fragment slot="or">{$t('home.searcher.or')}</svelte:fragment>
 				<svelte:fragment slot="page">{$t('home.searcher.page')}</svelte:fragment>
