@@ -96,9 +96,9 @@
 				<img
 					src={UiExport}
 					alt={$t('home.export.display')}
-					class="absolute left-1/3 md:left-[20%] max-w-none -translate-x-1/2"
-					width="640"
-					height="320"
+					class="absolute left-1/3 md:left-[20%] max-w-none -translate-x-1/2 w-[640px] h-[320px] md:w-[1280px] md:h-[640px] md:blur-[1px]"
+					width="1280"
+					height="640"
 				/>
 			</div>
 		</div>
@@ -135,7 +135,7 @@
 					{#each data.members as member}
 						<img
 							class="rounded-full border-2 border-white -ml-6 hover:scale-110 transition-transform"
-							src="https://upload.thwiki.cc/avatars/thwikicc_wiki_{member}_l.png"
+							src="https://avatar.thwiki.cc/thwikicc_wiki_{member}_l.png"
 							crossorigin="anonymous"
 							alt={$t('home.community.display')}
 						/>

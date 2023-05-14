@@ -1,9 +1,14 @@
 <script lang="ts">
 	import '../app.postcss';
-	import { t } from '../lib/translations';
+	import { locale, t } from '../lib/translations';
 
 	import Header from '../lib/components/Header.svelte';
 	import Footer from '../lib/components/Footer.svelte';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		$locale = window.navigator.language.startsWith('zh') ? 'zh' : 'en';
+	});
 </script>
 
 <svelte:head>
