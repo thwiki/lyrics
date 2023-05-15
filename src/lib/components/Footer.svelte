@@ -24,7 +24,7 @@
 				<div class="ml-auto text-center font-semibold">
 					<a href="https://thwiki.cc/" target="_blank"
 						><img
-							src="https://thwiki.cc/banner/banner_b1.png"
+							src="https://static.thwiki.cc/banner/banner_b1@2x.png"
 							width="200"
 							height="40"
 							alt={$t('common.author_desc')}
