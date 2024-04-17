@@ -191,8 +191,6 @@ export const load = (async ({ fetch }) => {
 				? []
 				: popularItems.data
 						.filter((item) => {
-							if (item.type !== 'func') return false;
-
 							try {
 								item.title = decodeURIComponent(item.target_path);
 								if (/[\u007F-\u00FF]/.test(item.title) || !item.title.endsWith('.lrc'))
