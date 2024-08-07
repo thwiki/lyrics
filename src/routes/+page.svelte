@@ -135,7 +135,7 @@
 					{#each data.members as member}
 						<img
 							class="rounded-full border-2 border-white -ml-6 hover:scale-110 transition-transform"
-							src="https://avatar.thwiki.cc/thwikicc_wiki_{member}_l.png"
+							src="https://avatar.thbwiki.cc/thwikicc_wiki_{member}_l.png"
 							crossorigin="anonymous"
 							alt={$t('home.community.display')}
 						/>

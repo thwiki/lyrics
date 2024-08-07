@@ -49,7 +49,7 @@
 			return searchCache.get(term) ?? [];
 		}
 
-		const url = new URL('https://cache.thwiki.cc/api.php');
+		const url = new URL('https://thbwiki.cc/api.php');
 		const { searchParams } = url;
 		searchParams.set('action', 'opensearch');
 		searchParams.set('format', 'json');
