@@ -3,6 +3,8 @@ import {
 	RANKING_POPULAR_REQUEST_LIMIT,
 	RANKING_RECENT_LIMIT,
 	RANKING_RECENT_NAMESPACE,
+	API_TOKEN,
+	TTT_API_SOURCE,
 	VERCEL_OWNER_ID,
 	VERCEL_PROJECT_ID,
 	VERCEL_TEAM_ID,
@@ -129,7 +131,7 @@ function parseName(name: string) {
 }
 
 export const load = (async ({ fetch }) => {
-	const recentChangesUrl = new URL('https://thwiki.cc/api.php');
+	const recentChangesUrl = new URL(TTT_API_SOURCE);
 	const recentChangesUrlSearchParams = recentChangesUrl.searchParams;
 	recentChangesUrlSearchParams.set('action', 'query');
 	recentChangesUrlSearchParams.set('format', 'json');
@@ -146,7 +148,9 @@ export const load = (async ({ fetch }) => {
 	recentChangesUrlSearchParams.set('grctoponly', '1');
 
 	const recentChanges: WikiRecentChangesResponse = await (
-		await fetch(recentChangesUrl.href)
+		await fetch(recentChangesUrl.href, {
+			headers: [['X-Api-Token', API_TOKEN]]
+		})
 	).json();
 
 	const toDate = new Date();

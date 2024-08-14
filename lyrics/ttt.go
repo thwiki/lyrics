@@ -202,7 +202,10 @@ func (r *TTTResponse) FromRequest(request *Request) (err error) {
 		return
 	}
 
-	resp, err := http.Get(source)
+	client := &http.Client{}
+	req, _ := http.NewRequest("GET", source, nil)
+	req.Header.Set("X-Api-Token", os.Getenv("API_TOKEN"))
+	resp, err := client.Do(req)
 	if err != nil {
 		return
 	}

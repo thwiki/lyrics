@@ -57,7 +57,11 @@ func (r *AskTrackResponse) FromRequest(request *Request) (err error) {
 		return
 	}
 
-	resp, err := http.Post(source, "application/json", bytes.NewBuffer(queryBytes))
+	client := &http.Client{}
+	req, _ := http.NewRequest("POST", source, bytes.NewBuffer(queryBytes))
+	req.Header.Set("X-Api-Token", os.Getenv("API_TOKEN"))
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
 	if err != nil {
 		return
 	}
